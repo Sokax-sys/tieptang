@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.0/css/all.min.css" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎉 Chúc Mừng Sinh Nhật Tiệp! 🎂</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background: #0a0a0a;
+            color: #fff;
+        }
+
+        .parallax-container {
+            height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+            perspective: 1px;
+            scroll-behavior: smooth;
+        }
+
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23667eea" width="1200" height="600"/><circle fill="%23764ba2" opacity="0.3" cx="200" cy="150" r="100"/><circle fill="%23f093fb" opacity="0.2" cx="800" cy="400" r="150"/><circle fill="%23ffd700" opacity="0.15" cx="1000" cy="200" r="80"/></svg>');
+            background-size: cover;
+            transform: translateZ(-1px) scale(2);
+            z-index: -1;
+            will-change: transform;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 4.5em;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 10px rgba(0,0,0,0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px #fff, 0 0 30px #ff00de, 0 0 40px #ff00de; }
+            to { text-shadow: 0 0 30px #fff, 0 0 40px #ff00de, 0 0 50px #ff00de; }
+        }
+
+        .hero p {
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-20px); }
+            60% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        .section {
+            min-height: 100vh;
+            padding: 80px 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .section-content {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .section:nth-child(2) {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .section:nth-child(3) {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .section:nth-child(4) {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .section h2 {
+            font-size: 3em;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .section p, .section ul {
+            font-size: 1.3em;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .section li {
+            padding: 15px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section li:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .section li::before {
+            content: "🎈 ";
+            font-size: 1.2em;
+        }
+
+        .balloons {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            width: 40px;
+            height: 50px;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), transparent);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: float 10s ease-in-out infinite;
+            will-change: transform;
+        }
+
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            width: 2px;
+            height: 50px;
+            background: rgba(255,255,255,0.5);
+            transform: translateX(-50%);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); }
+            50% { transform: translateY(-50vh) translateX(20px) rotate(5deg); }
+            100% { transform: translateY(-120vh) translateX(-20px) rotate(-5deg); }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            z-index: 999;
+            animation: confetti-fall 5s linear infinite;
+            will-change: transform;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        .cake-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .cake {
+            font-size: 5em;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .cake:hover {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .cake:active {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .wish-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.3em;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .wish-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        .wish-button:active {
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.2em; }
+            .section h2 { font-size: 2em; }
+            .section p, .section ul { font-size: 1.1em; }
+            .section-content { padding: 30px; }
+            .cake { font-size: 3.5em; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="parallax-container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-bg"></div>
+            <div class="hero-content">
+                <h1>🎉 CHÚC MỪNG SINH NHẬT 🎉</h1>
+                <p>Nguyễn Ngọc Tiệp</p>
+                <p style="font-size: 0.8em; opacity: 0.8;">Người bạn thân của lớp 9C - Bạch Đằng</p>
+                <div class="cake-container">
+                    <div class="cake" onclick="blowCandles()">🎂</div>
+                    <p style="font-size: 0.9em; margin-top: 10px;">Nhấn vào bánh để thổi nến! 🕯️</p>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <i style="font: 30px, bold" class="fa-solid fa-arrow-down"></i>
+            </div>
+        </section>
+
+        <!-- Wishes Section -->
+        <section class="section">
+            <div class="section-content">
+                <h2>💝 Lời Chúc Của Tớ 💝</h2>
+                <ul>
+                    <li>Chúc cậu sinh nhật thật vui vẻ và tràn đầy niềm vui!</li>
+                    <li>Học giỏi hơn, đạt được những ước mơ trong tương lai!</li>
+                    <li>Luôn khỏe mạnh, hạnh phúc và thành công!</li>
+                    <li>Có thật nhiều kỷ niệm đẹp và bạn bè tốt!</li>
+                    <li>Tuổi mới thêm đẹp trai và thêm tự tin!</li>
+                    <li>Gia đình luôn ấm áp, bố mẹ luôn khỏe mạnh!</li>
+                    <li>Dù ở nơi 2 nơi khác nhau, tình bạn mình luôn mãi bền chặt!</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Future Dreams -->
+        <section class="section">
+            <div class="section-content">
+                <h2>🚀 Hành Trình Phía Trước 🚀</h2>
+                <p>
+                    Đến nay cậu đã sống đến 16 tuổi - một hành trình đầy cố gắng và quyết tâm!
+                </p>
+                <p>
+                    Mong rằng cậu sẽ đạt được những thành tích cao hơn nữa,
+                    vượt qua mọi khó khăn và chinh phục ước mơ của mình!
+                </p>
+                <p>
+                    Dù đường đời có nhiều thử thách, nhưng với sự kiên trì và nỗ lực,
+                    cậu chắc chắn sẽ đạt được những điều mình mong muốn. Cố lên nhé! 💪
+                </p>
+                <h1 style="color: rgb(0, 89, 255); font-weight: bold; text-align: center; font-size: 1.5em; margin-top: 30px;">
+                    🎓 Chúc may mắn, MVP 🎓
+                </h1>
+            </div>
+        </section>
+
+        <!-- Final Message -->
+        <section class="section">
+            <div class="section-content">
+                <h2>🎊 Một Ngày Thật Đặc Biệt 🎊</h2>
+                <p style="text-align: center; font-size: 1.4em; margin: 30px 0;">
+                    Hôm nay là ngày của cậu! Hãy tận hưởng từng khoảnh khắc,
+                    ăn thật nhiều bánh kem, nhận thật nhiều quà và tạo thật nhiều kỷ niệm đẹp! 🎂🎁
+                </p>
+                <p style="text-align: center; font-size: 1.2em; margin: 20px 0;">
+                    Dù xa hay gần, dù ở lớp nào, tớ luôn ở đây và sẵn sàng ủng hộ cậu!
+                </p>
+                <p style="text-align: center; font-size: 2em; font-weight: bold; margin: 30px 0;">
+                    🎈 HAPPY BIRTHDAY TIỆP! 🎈
+                </p>
+                <div style="text-align: center;">
+                    <button class="wish-button" onclick="showSurprise()">
+                        🎁 Nhấn để nhận lời chúc bất ngờ!
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Balloons -->
+    <div class="balloons" id="balloons"></div>
+
+    <script>
+        // Optimized balloon creation with limit
+        function createBalloons() {
+            const colors = ['#ff6b9d', '#c44569', '#f8b500', '#4a90e2', '#9b59b6', '#3498db'];
+            const balloonContainer = document.getElementById('balloons');
+            const balloonCount = window.innerWidth < 768 ? 8 : 12; // Fewer balloons on mobile
+            
+            for (let i = 0; i < balloonCount; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                balloon.style.left = Math.random() * 100 + '%';
+                balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                balloon.style.animationDelay = Math.random() * 5 + 's';
+                balloon.style.animationDuration = (8 + Math.random() * 5) + 's';
+                balloonContainer.appendChild(balloon);
+            }
+        }
+
+        // Optimized confetti with auto cleanup
+        function createConfetti() {
+            const colors = ['#ff6b9d', '#c44569', '#f8b500', '#4a90e2', '#9b59b6', '#3498db', '#e74c3c', '#2ecc71'];
+            const confettiCount = window.innerWidth < 768 ? 30 : 50;
+            const confettiElements = [];
+            
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                confetti.style.animationDuration = (3 + Math.random() * 2) + 's';
+                document.body.appendChild(confetti);
+                confettiElements.push(confetti);
+            }
+
+            // Auto cleanup after animation
+            setTimeout(() => {
+                confettiElements.forEach(el => el.remove());
+            }, 6000);
+        }
+
+        // Blow candles effect
+        function blowCandles() {
+            const cake = document.querySelector('.cake');
+            cake.innerHTML = '🎉';
+            setTimeout(() => {
+                cake.innerHTML = '🎂';
+            }, 2000);
+            createConfetti();
+        }
+
+        // Show surprise message
+        function showSurprise() {
+            const messages = [
+                "🌟 Cậu là người bạn tuyệt vời nhất! 🌟",
+                "💫 Mãi mãi là bạn thân của nhau nhé! 💫",
+                "🎯 Năm nay cậu sẽ đạt được mọi mục tiêu! 🎯",
+                "🌈 Cuộc sống luôn tươi sáng như cầu vồng! 🌈",
+                "⭐ Cậu xứng đáng với mọi điều tốt đẹp nhất! ⭐"
+            ];
+            const message = messages[Math.floor(Math.random() * messages.length)];
+            alert(message);
+            createConfetti();
+        }
+
+        // Optimized parallax scroll with throttle
+        let lastScroll = 0;
+        let ticking = false;
+
+        function updateParallax() {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.hero-bg');
+            parallaxElements.forEach(el => {
+                el.style.transform = `translateZ(-1px) scale(2) translateY(${scrolled * 0.5}px)`;
+            });
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', function() {
+            lastScroll = window.pageYOffset;
+            if (!ticking) {
+                window.requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        });
+
+        // Optimized intersection observer
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 1s ease-out forwards';
+                    observer.unobserve(entry.target); // Stop observing after animation
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section-content').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Initialize on page load
+        window.addEventListener('load', function() {
+            createBalloons();
+            setTimeout(createConfetti, 500);
+        });
+    </script>
+</body>
+</html>
